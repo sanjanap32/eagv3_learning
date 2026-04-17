@@ -9,7 +9,7 @@ from googlesearch import search
 
 logger = logging.getLogger(__name__)
 
-def fetch_search_results(query: str, num_results: int = 3) -> List[str]:
+def fetch_search_results(query: str, num_results: int = 2) -> List[str]:
     """
     Search Google and return top URLs.
     
@@ -75,7 +75,7 @@ def gather_context_for_query(query: str) -> str:
     Returns:
         Aggregated textual context string.
     """
-    urls = fetch_search_results(query, num_results=3)
+    urls = fetch_search_results(query, num_results=2)
     context_chunks = []
     
     for url in urls:

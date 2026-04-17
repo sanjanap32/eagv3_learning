@@ -7,7 +7,7 @@ A production-ready Python command-line project that acts as an expert travel AI.
 
 ## Features
 - **Smart Web Scraping:** Gathers real-time context and insider tips using `googlesearch-python` and `requests`/`beautifulsoup4`.
-- **Generative AI Itinerary:** Uses `gemini-2.5-pro` with Pydantic structured output.
+- **Generative AI Itinerary:** Uses `gemini-2.5-flash` with Pydantic structured output.
 - **Rich Terminal UI:** Outputs colorful and structured tables right to your terminal using `rich`.
 - **Markdown Export:** Saves your customized itinerary as a complete Markdown file ready to be shared.
 - **Production Quality:** Fully type-hinted code, rigorous error-handling, standardized logging, and PEP 8 compliant.

@@ -36,7 +36,7 @@ def generate_itinerary(query: str, context: str) -> FinalItinerary:
     logger.info("Calling Gemini API...")
     try:
         response = client.models.generate_content(
-            model='gemini-2.5-pro',
+            model='gemini-2.5-flash',
             contents=prompt,
             config=genai.types.GenerateContentConfig(
                 system_instruction=system_prompt,
