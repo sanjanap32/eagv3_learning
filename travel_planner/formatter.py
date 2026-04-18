@@ -13,27 +13,27 @@ def generate_markdown(itinerary: FinalItinerary) -> str:
     """
     Format the structured itinerary into a Markdown string.
     """
-    md = f"# {itinerary.title}\\n\\n"
-    md += f"**Overall Budget Estimate**: {itinerary.overall_budget_estimate}\\n\\n"
+    md = f"# {itinerary.title}\n\n"
+    md += f"**Overall Budget Estimate**: {itinerary.overall_budget_estimate}\n\n"
     
     for day in itinerary.days:
-        md += f"## Day {day.day_number}\\n\\n"
-        md += f"**Morning**: {day.morning_activity}\\n\\n"
-        md += f"**Afternoon**: {day.afternoon_activity}\\n\\n"
-        md += f"**Evening**: {day.evening_activity}\\n\\n"
+        md += f"## Day {day.day_number}\n\n"
+        md += f"**Morning**: {day.morning_activity}\n\n"
+        md += f"**Afternoon**: {day.afternoon_activity}\n\n"
+        md += f"**Evening**: {day.evening_activity}\n\n"
         
-        md += "**Dining Recommendations**:\\n"
+        md += "**Dining Recommendations**:\n"
         for rest in day.recommended_restaurants:
-            md += f"- {rest}\\n"
-        md += "\\n"
-        md += f"**Transport Tips**: {day.transport_tips}\\n\\n"
-        md += f"**Estimated Cost**: {day.estimated_costs}\\n\\n"
-        md += f"**Insider Tip**: {day.insider_tips}\\n\\n"
-        md += "---\\n\\n"
+            md += f"- {rest}\n"
+        md += "\n"
+        md += f"**Transport Tips**: {day.transport_tips}\n\n"
+        md += f"**Estimated Cost**: {day.estimated_costs}\n\n"
+        md += f"**Insider Tip**: {day.insider_tips}\n\n"
+        md += "---\n\n"
         
-    md += "## General Insider Tips\\n"
+    md += "## General Insider Tips\n"
     for tip in itinerary.general_insider_tips:
-        md += f"- {tip}\\n"
+        md += f"- {tip}\n"
         
     return md
 
@@ -42,7 +42,7 @@ def print_itinerary_to_terminal(itinerary: FinalItinerary, console: Console):
     Print the itinerary using Rich formatting nicely.
     """
     console.print(Panel(f"[bold cyan]{itinerary.title}[/bold cyan]", border_style="cyan"))
-    console.print(f"[bold green]Overall Budget Estimate:[/bold green] {itinerary.overall_budget_estimate}\\n")
+    console.print(f"[bold green]Overall Budget Estimate:[/bold green] {itinerary.overall_budget_estimate}\n")
     
     for day in itinerary.days:
         table = Table(title=f"Day {day.day_number} Itinerary", show_header=True, header_style="bold magenta")

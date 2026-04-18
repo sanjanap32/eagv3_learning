@@ -46,13 +46,13 @@ def main():
         return
 
     # 3. Output formats
-    console.print("\\n[bold green]Success! Here is your generated itinerary:[/bold green]\\n")
+    console.print("\n[bold green]Success! Here is your generated itinerary:[/bold green]\n")
     print_itinerary_to_terminal(itinerary, console)
     
     md_output = generate_markdown(itinerary)
     save_markdown(md_output, args.out)
     
-    console.print(f"\\n[bold green]Check {args.out} for the Markdown export![/bold green]")
+    console.print(f"\n[bold green]Check {args.out} for the Markdown export![/bold green]")
 
 if __name__ == "__main__":
     main()

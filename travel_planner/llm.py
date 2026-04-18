@@ -31,7 +31,7 @@ def generate_itinerary(query: str, context: str) -> FinalItinerary:
         "Create a realistic and well-balanced itinerary. Integrate the 'insider tips' sourced from the context when available."
     )
     
-    prompt = f"Query: {query}\\n\\nContext:\\n{context}"
+    prompt = f"Query: {query}\n\nContext:\n{context}"
     
     logger.info("Calling Gemini API...")
     try:

@@ -81,6 +81,6 @@ def gather_context_for_query(query: str) -> str:
     for url in urls:
         content = crawl_page_content(url)
         if content:
-            context_chunks.append(f"Source: {url}\\nContent:\\n{content}")
+            context_chunks.append(f"Source: {url}\nContent:\n{content}")
             
-    return "\\n\\n---\\n\\n".join(context_chunks)
+    return "\n\n---\n\n".join(context_chunks)
