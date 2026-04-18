@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>✈️ Travel Planner AI</h2>
+        <div class="input-group">
+            <input type="text" id="queryInput" placeholder="e.g. 5 days in Kyoto Japan" />
+            <button id="generateBtn">Plan My Trip</button>
+        </div>
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Scraping the web and plotting itinerary...</p>
+        </div>
+        <div id="results" class="hidden"></div>
+        <div id="error" class="hidden"></div>
+    </div>
+    
+    <script src="lib/marked.min.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
