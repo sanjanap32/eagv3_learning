@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "AI Travel Planner",
+  "version": "1.0",
+  "description": "Generate amazing travel itineraries using Gemini AI locally from your browser.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "http://127.0.0.1:5000/*"
+  ]
+}
