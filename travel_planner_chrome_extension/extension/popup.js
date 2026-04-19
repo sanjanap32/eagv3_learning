@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsDiv.innerHTML = '';
 
         try {
-            const apiRes = await fetch('http://localhost:5000/plan_itinerary', {
+            const apiRes = await fetch('http://127.0.0.1:5000/plan_itinerary', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -24,7 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ query })
             });
 
-            const data = await apiRes.json();
+            // Fallback response handling if the server returns non-JSON errors
+            const rawText = await apiRes.text();
+            let data;
+            try {
+                data = JSON.parse(rawText);
+            } catch (e) {
+                // If it fails to parse JSON, throw the raw string instead of a useless end of JSON input error
+                throw new Error(rawText || "Server disconnected unexpectedly.");
+            }
 
             if (!apiRes.ok) {
                 throw new Error(data.error || "Failed to generate itinerary.");
