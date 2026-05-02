@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     videos.forEach(video => {
-      const adFreeUrl = `https://www.youtube-nocookie.com/embed/${video.id}`;
+      const adFreeUrl = `https://www.youtube.com/watch?v=${video.id}`;
       
       const itemDiv = document.createElement('a');
       itemDiv.className = 'video-item';
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const linkDiv = document.createElement('div');
       linkDiv.className = 'video-link';
-      linkDiv.textContent = 'Watch Ad-Free';
+      linkDiv.textContent = 'Watch on YouTube';
 
       itemDiv.appendChild(titleDiv);
       itemDiv.appendChild(channelDiv);

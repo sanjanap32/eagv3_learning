@@ -1,4 +1,4 @@
-// API_KEY is loaded from config.js
+// popup.js — UI logic. API calls go through background.js.
 
 document.addEventListener('DOMContentLoaded', () => {
   const fetchBtn = document.getElementById('fetch-btn');
@@ -22,48 +22,47 @@ document.addEventListener('DOMContentLoaded', () => {
     loadingDiv.classList.remove('hidden');
 
     try {
-      // 1. Check if we have cached results in chrome.storage.local
+      // 1. Check local cache first
       const cachedData = await getFromStorage(`cat_${categoryId}`);
 
       if (cachedData && cachedData.videos && cachedData.videos.length > 0) {
-        // Use cached videos
         displayVideos(cachedData.videos);
         await updateHistory(categoryId, categoryName);
         loadingDiv.classList.add('hidden');
         return;
       }
 
-      // 2. If not cached, make API call using videos.list (not search.list which is often blocked)
-      if (API_KEY === 'YOUR_API_KEY_HERE') {
-        throw new Error('Please add your free YouTube Data API key in config.js');
-      }
-
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&videoCategoryId=${categoryId}&maxResults=5&regionCode=IN&key=${API_KEY}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error?.message || 'API Request failed');
-      }
-
-      const data = await response.json();
-      const videos = data.items.map(item => ({
-        id: item.id,
-        title: item.snippet.title,
-        channel: item.snippet.channelTitle
-      }));
-
-      // 3. Save to local storage cache
-      await saveToStorage(`cat_${categoryId}`, {
-        categoryName: categoryName,
-        timestamp: Date.now(),
-        videos: videos
+      // 2. Fetch from YouTube API via background worker
+      const result = await new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage(
+          { action: 'fetchVideos', categoryId },
+          (response) => {
+            if (chrome.runtime.lastError) {
+              reject(new Error(chrome.runtime.lastError.message));
+            } else {
+              resolve(response);
+            }
+          }
+        );
       });
 
-      // 4. Update history log in local storage
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      const videos = result.videos;
+
+      // 3. Cache results locally
+      await saveToStorage(`cat_${categoryId}`, {
+        categoryName,
+        timestamp: Date.now(),
+        videos
+      });
+
+      // 4. Update history
       await updateHistory(categoryId, categoryName);
 
-      // 5. Display videos
+      // 5. Display
       displayVideos(videos);
 
     } catch (err) {
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     videos.forEach(video => {
-      const adFreeUrl = `https://www.youtube-nocookie.com/embed/${video.id}`;
+      const adFreeUrl = `https://www.youtube.com/watch?v=${video.id}`;
 
       const itemDiv = document.createElement('a');
       itemDiv.className = 'video-item';
@@ -90,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const titleDiv = document.createElement('div');
       titleDiv.className = 'video-title';
-      // Basic HTML unescape since API returns escaped characters
       const temp = document.createElement('div');
       temp.innerHTML = video.title;
       titleDiv.textContent = temp.textContent;
@@ -101,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const linkDiv = document.createElement('div');
       linkDiv.className = 'video-link';
-      linkDiv.textContent = 'Watch Ad-Free';
+      linkDiv.textContent = 'Watch on YouTube';
 
       itemDiv.appendChild(titleDiv);
       itemDiv.appendChild(channelDiv);
@@ -111,32 +109,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Storage helper functions
+  // Storage helpers
   function getFromStorage(key) {
-    return new Promise((resolve) => {
-      chrome.storage.local.get([key], (result) => {
-        resolve(result[key]);
-      });
+    return new Promise(resolve => {
+      chrome.storage.local.get([key], result => resolve(result[key]));
     });
   }
 
   function saveToStorage(key, data) {
-    return new Promise((resolve) => {
-      chrome.storage.local.set({ [key]: data }, () => {
-        resolve();
-      });
+    return new Promise(resolve => {
+      chrome.storage.local.set({ [key]: data }, () => resolve());
     });
   }
 
   async function updateHistory(categoryId, categoryName) {
     const history = await getFromStorage('search_history') || [];
-    // Remove if already exists so we can bump it to the top
-    const filteredHistory = history.filter(item => item.id !== categoryId);
-    filteredHistory.unshift({
+    const filtered = history.filter(item => item.id !== categoryId);
+    filtered.unshift({
       id: categoryId,
       name: categoryName,
       lastSearched: Date.now()
     });
-    await saveToStorage('search_history', filteredHistory);
+    await saveToStorage('search_history', filtered);
   }
 });
