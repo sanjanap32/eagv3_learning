@@ -161,7 +161,18 @@ p {
 .video-channel {
   color: var(--text-muted);
   font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.video-summary {
+  color: #e2e2e2;
+  font-size: 14px;
+  line-height: 1.5;
   margin-bottom: 12px;
+  padding: 10px;
+  background: rgba(108, 92, 231, 0.1);
+  border-left: 3px solid var(--primary-accent);
+  border-radius: 4px;
 }
 
 .video-link {

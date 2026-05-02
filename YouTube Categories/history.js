@@ -78,12 +78,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       channelDiv.className = 'video-channel';
       channelDiv.textContent = `By: ${video.channel}`;
 
+      const summaryDiv = document.createElement('div');
+      summaryDiv.className = 'video-summary';
+      summaryDiv.innerHTML = `✨ <i>${video.aiSummary || "Generating summary..."}</i>`;
+
       const linkDiv = document.createElement('div');
       linkDiv.className = 'video-link';
       linkDiv.textContent = 'Watch on YouTube';
 
       itemDiv.appendChild(titleDiv);
       itemDiv.appendChild(channelDiv);
+      itemDiv.appendChild(summaryDiv);
       itemDiv.appendChild(linkDiv);
       
       videoListDiv.appendChild(itemDiv);
