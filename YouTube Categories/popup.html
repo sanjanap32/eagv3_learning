@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h2>YouTube Categories</h2>
+    <p>Get the top 5 rated videos.</p>
+
+    <div class="form-group">
+      <label for="category">Select a Category:</label>
+      <select id="category">
+        <option value="10">Music</option>
+        <option value="20">Gaming</option>
+        <option value="24">Entertainment</option>
+        <option value="28">Science & Technology</option>
+        <option value="17">Sports / Fitness</option>
+      </select>
+    </div>
+
+    <button id="fetch-btn" class="primary-btn">Get Videos</button>
+    <button id="history-btn" class="secondary-btn">View History</button>
+
+    <div id="loading" class="hidden">Fetching videos...</div>
+    <div id="error" class="hidden error"></div>
+    <div id="results" class="results-container"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
