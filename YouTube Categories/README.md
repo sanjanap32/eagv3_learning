@@ -43,3 +43,8 @@ To fetch the top 5 videos, this extension uses the YouTube Data API v3. You need
 2. Select a category from the dropdown menu and click **Get Videos**.
 3. Click any video link to watch it on YouTube.
 4. Click **View History** to see all the categories you've previously searched and load their cached videos instantly.
+
+
+## Links
+Youtube:
+Twitter: https://x.com/parida1_sanjana/status/2050777014634950680?s=20
